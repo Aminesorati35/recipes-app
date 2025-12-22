@@ -91,7 +91,7 @@ const AdminNavbar = () => {
                <li>
                 <span
                   onClick={()=>logout(navigate)}
-                  className="relative flex flex-col items-center p-4 overflow-hidden text-blue-200 transition-all duration-300 group xl:flex-row xl:space-x-4 rounded-2xl hover:text-white hover:bg-gradient-to-r hover:from-blue-700/50 hover:to-blue-600/30 hover:shadow-lg"
+                  className="relative flex cursor-pointer flex-col items-center p-4 overflow-hidden text-blue-200 transition-all duration-300 group xl:flex-row xl:space-x-4 rounded-2xl hover:text-white hover:bg-gradient-to-r hover:from-blue-700/50 hover:to-blue-600/30 hover:shadow-lg"
                 >
                   <div className="absolute inset-0 transition-all duration-500 opacity-0 bg-gradient-to-r from-blue-400/10 to-cyan-500/10 group-hover:opacity-100 rounded-2xl"></div>
 

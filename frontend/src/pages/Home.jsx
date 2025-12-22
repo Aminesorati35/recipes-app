@@ -109,9 +109,6 @@ const Home = () => {
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center md:text-left">
             Categories
           </h2>
-          <button className="bg-blue-200 p-3 px-6 rounded-xl md:rounded-2xl font-semibold hover:bg-blue-300 transition-colors w-full md:w-auto">
-            View All Categories
-          </button>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 w-full max-w-7xl p-4">
           {categories.map((category) => (
@@ -123,7 +120,7 @@ const Home = () => {
               <img
                 src={`http://127.0.0.1:8000/storage/${category.image}`}
                 alt="Category"
-                className="w-16 h-16 md:w-30 md:h-20 object-cover"
+                className="w-[70%] md:w-[70%]  object-cover"
               />
               <span className="font-semibold text-sm md:text-base">
                 {category.name}

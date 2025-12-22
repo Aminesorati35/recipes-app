@@ -111,7 +111,7 @@ const RecipesByCategory = () => {
           {category.name}
         </h1>
         <p className="text-gray-600 max-w-2xl mx-auto">
-          Discover delicious recipes with detailed ingredients and instructions
+          {category.description}
         </p>
       </div>
       {renderContent()}
