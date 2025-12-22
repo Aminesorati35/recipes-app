@@ -11,6 +11,7 @@ class Recipe extends Model
         'description',
         'image',
         'user_id',
+        "category_id"
     ];
     public function ingredients(){
         return $this->hasMany(Ingredient::class);
@@ -20,5 +21,11 @@ class Recipe extends Model
     }
     public function user(){
         return $this->belongsTo(User::class);
+    }
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
+    public function informations(){
+        return $this->hasMany(Information::class);
     }
 }
