@@ -1,19 +1,50 @@
 import { faClock, faShare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 export const SingleRecipe = () => {
   const { id } = useParams();
+  const [myRecipe,setMyRecipe]=useState({})
+  const [recipes,setRecipes]=useState([])
+  useEffect(()=>{
+    const getRecipe = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/api/showRecipe/${id}`
+        );
+        setMyRecipe(response.data.recipe);
+        console.log(response.data.recipe)
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    getRecipe()
+  },[id])
+  useEffect(()=>{
+     if (!myRecipe.category_id) return;
+    const getRecipesByCategory = async ()=>{
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/api/getFiveRecipeByCategory/${myRecipe.category_id}`
+        );
+        setRecipes(response.data.recipes);
+        console.log("response.data.recipes",response.data.recipes)
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    getRecipesByCategory()
+  },[myRecipe.category_id])
   
   return (
     <main className="w-full flex items-center flex-col min-h-screen px-4 sm:px-6 lg:px-8 py-6 md:py-8">
-      {/* Header Section */}
       <div className="w-full max-w-7xl p-4 md:p-6 lg:p-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 md:gap-8">
         <div className="w-full lg:w-4/5 flex flex-col gap-6 md:gap-8 px-0 lg:px-4">
           <div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              Healthy Japanese Fried Rice
+              {myRecipe.title}
             </h1>
           </div>
           <div className="flex flex-wrap gap-4 md:gap-6">
@@ -66,11 +97,10 @@ export const SingleRecipe = () => {
         </div>
       </div>
 
-      {/* Main Image and Nutrition Section */}
       <div className="flex flex-col lg:flex-row justify-center w-full max-w-7xl p-4 md:p-6 lg:p-10 gap-6 md:gap-8">
         <div className="w-full lg:w-3/5 rounded-2xl md:rounded-3xl lg:rounded-4xl overflow-hidden">
           <img 
-            src="/images/recipes/2.png" 
+            src={`http://localhost:8000/storage/${myRecipe.image}`}
             alt="Japanese Fried Rice" 
             className="w-full h-64 sm:h-80 md:h-96 lg:h-auto object-cover"
           />
@@ -79,18 +109,12 @@ export const SingleRecipe = () => {
           <div>
             <h1 className="font-bold text-lg md:text-xl lg:text-2xl">Nutrition Information</h1>
             <div className="mt-4 md:mt-6 space-y-3 md:space-y-4">
-              {[
-                { label: "Calories", value: "219.9 kcal" },
-                { label: "Protein", value: "8.5g" },
-                { label: "Carbs", value: "32.4g" },
-                { label: "Fat", value: "6.2g" },
-                { label: "Fiber", value: "3.1g" }
-              ].map((item, index) => (
+              {myRecipe?.informations?.map((item, index) => (
                 <div key={index} className="flex justify-between items-center border-b border-gray-300 pb-2 md:pb-3">
                   <span className="text-sm md:text-base lg:text-lg font-medium text-gray-600">
-                    {item.label}
+                    {item.name}
                   </span>
-                  <span className="font-semibold text-sm md:text-base lg:text-lg">{item.value}</span>
+                  <span className="font-semibold text-sm md:text-base lg:text-lg">{item.quantity}</span>
                 </div>
               ))}
             </div>
@@ -104,72 +128,52 @@ export const SingleRecipe = () => {
         </div>
       </div>
 
-      {/* Description Section */}
       <div className="w-full max-w-4xl p-4 md:p-6 mt-4 md:mt-8">
         <p className="text-gray-600 text-sm md:text-base lg:text-lg leading-relaxed">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+          {myRecipe.description}
         </p>
       </div>
 
-      {/* Ingredients and Other Recipes Section */}
       <div className="w-full max-w-7xl p-4 md:p-6 lg:p-10 flex flex-col lg:flex-row gap-8 md:gap-10">
         <div className="w-full lg:w-3/5 p-4 md:p-6 lg:p-8 flex flex-col gap-6 md:gap-8">
           <h1 className="text-2xl md:text-3xl font-bold">Ingredients</h1>
-          
           <div className="flex flex-col gap-4 md:gap-6">
             <h2 className="text-xl md:text-2xl font-semibold">For Main Dish</h2>
             <div className="flex flex-col gap-3 md:gap-4">
-              {[1, 2, 3, 4].map((item) => (
-                <div key={item} className="flex gap-3 items-center pb-3 md:pb-4 border-b border-gray-200">
+              {myRecipe?.ingredients?.map((item) => (
+                <div key={item.id} className="flex gap-3 items-center pb-3 md:pb-4 border-b border-gray-200">
                   <div className="w-6 h-6 flex items-center justify-center bg-blue-100 rounded-full text-blue-600 font-bold">
                     ✓
                   </div>
-                  <p className="text-gray-700 text-sm md:text-base">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  <div className="flex justify-between w-full">
+                    <p className="text-gray-700 text-sm md:text-base">
+                    {item.name}
                   </p>
+                  <span className="font-semibold text-blue-400">{item.quantity}</span>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="flex flex-col gap-4 md:gap-6">
-            <h2 className="text-xl md:text-2xl font-semibold">For the Sauce</h2>
-            <div className="flex flex-col gap-3 md:gap-4">
-              {[1, 2, 3].map((item) => (
-                <div key={item} className="flex gap-3 items-center pb-3 md:pb-4 border-b border-gray-200">
-                  <div className="w-6 h-6 flex items-center justify-center bg-green-100 rounded-full text-green-600 font-bold">
-                    ✓
-                  </div>
-                  <p className="text-gray-700 text-sm md:text-base">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
+         
         </div>
 
         <div className="w-full lg:w-2/5 p-4 md:p-6 lg:p-8 flex flex-col gap-6 md:gap-8 bg-gray-50 rounded-2xl md:rounded-3xl">
           <h1 className="text-2xl md:text-3xl font-bold">Other Recipes</h1>
           <div className="flex flex-col gap-4 md:gap-6">
-            {[1, 2, 3].map((recipe) => (
-              <div key={recipe} className="flex gap-3 md:gap-4 p-3 md:p-4 hover:bg-white rounded-xl transition-colors cursor-pointer">
+            {recipes.map((recipe) => (
+              <div key={recipe.id} className="flex gap-3 md:gap-4 p-3 md:p-4 hover:bg-white rounded-xl transition-colors cursor-pointer">
                 <div className="w-24 h-24 md:w-28 md:h-28 flex-shrink-0">
                   <img
-                    src={`/images/recipes/${recipe}.png`}
+                   src={`http://127.0.0.1:8000/storage/${recipe.image}`}
                     alt="Recipe"
                     className="w-full h-full object-cover rounded-xl md:rounded-2xl"
                   />
                 </div>
                 <div className="flex flex-col gap-1 md:gap-2 flex-1">
                   <h2 className="font-semibold text-base md:text-lg lg:text-xl leading-tight">
-                    Chicken Meatball with Creamy Cheese
+                    {recipe.title}
                   </h2>
                   <p className="text-gray-500 font-medium text-sm md:text-base">By Andreas Paula</p>
                 </div>
@@ -179,21 +183,16 @@ export const SingleRecipe = () => {
         </div>
       </div>
 
-      {/* Directions Section */}
       <div className="w-full max-w-7xl p-4 md:p-6 lg:p-10 lg:p-20 flex flex-col gap-6 md:gap-8">
-        <h1 className="text-2xl md:text-3xl font-bold">Directions</h1>
+        <h1 className="text-2xl md:text-3xl font-bold">Steps</h1>
         <div className="flex flex-col gap-6 md:gap-8 w-full lg:w-4/5">
-          {[1, 2, 3, 4].map((step) => (
-            <div key={step} className="flex flex-col gap-4 md:gap-6">
+          {myRecipe?.steps?.map((step) => (
+            <div key={step.id} className="flex flex-col gap-4 md:gap-6">
               <h2 className="font-semibold text-xl md:text-2xl">
-                {step}. Lorem Ipsum dolor sit
+                {step.step_number} : Lorem Ipsum dolor sit
               </h2>
               <p className="text-gray-600 font-medium text-sm md:text-base leading-relaxed mb-4">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum
-                doloribus repellendus obcaecati ab ipsam maiores, saepe itaque,
-                assumenda rerum ad voluptatem officiis neque exercitationem
-                perspiciatis consectetur sed tempore recusandae eligendi? Lorem ipsum
-                dolor sit amet consectetur adipisicing elit.
+                {step.description}
               </p>
               {step === 1 && (
                 <div className="w-full">
