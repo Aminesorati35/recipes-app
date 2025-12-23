@@ -23,7 +23,7 @@ A full-stack Recipe App with **Laravel backend** and **React frontend**.
 ---
 
 # Getting Started
-## Please Make Sure Internet Is Wokinr
+## Please Make Sure Internet Is Woking
 
 
 
