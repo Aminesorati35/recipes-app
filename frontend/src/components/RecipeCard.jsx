@@ -2,6 +2,18 @@ import React from "react";
 import { Link } from "react-router";
 
 const RecipeCard = ({recipe,handleDelete}) => {
+  const truncateTitle = (text)=>{
+    if (text.length <= 40) {
+    return text;
+   }
+   return text.slice(0,40) + "..."
+  }
+  const truncateDescription = (text)=>{
+    if (text.length <= 50) {
+    return text;
+   }
+   return text.slice(0,40) + "..."
+  }
   return (
     <div className="bg-blue-50 rounded-2xl md:rounded-3xl overflow-hidden hover:shadow-lg transition-shadow relative">
       <span className="absolute right-5 top-3 bg-blue-300 px-7 py-1 z-90 rounded-2xl font-semibold text-gray-600">{recipe.category.name}</span>
@@ -15,11 +27,11 @@ const RecipeCard = ({recipe,handleDelete}) => {
         />
       </div>
       <div className="flex flex-col p-4 md:p-6">
-        <h2 className="font-bold text-lg md:text-xl mb-3 md:mb-4">
-          {recipe.title}
+        <h2 className="font-bold text-lg md:text-xl mb-3 md:mb-4 h-11">
+          {truncateTitle(recipe.title)}
         </h2>
         <p className="text-gray-400 font-semibold pb-3">
-          {recipe.description}
+          {truncateDescription(recipe.description)}
         </p>
         <div className="w-full flex gap-4 p-3">
           <button onClick={()=>handleDelete(recipe.id)} className="px-5 py-2 text-white bg-red-400 rounded-2xl font-semibold cursor-pointer hover:bg-red-500 transition duration-300">Delete</button>

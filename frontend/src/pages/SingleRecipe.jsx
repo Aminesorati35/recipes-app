@@ -135,11 +135,6 @@ export const SingleRecipe = () => {
               )}
             </div>
           </div>
-          <div>
-            <p className="text-center text-gray-500 text-sm md:text-base">
-              {myRecipe.additional_info || "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
-            </p>
-          </div>
         </div>
       </div>
 

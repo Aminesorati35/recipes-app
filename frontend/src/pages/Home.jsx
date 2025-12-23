@@ -48,9 +48,9 @@ const Home = () => {
               </div>
               <div>
                 <p className="w-full lg:w-[90%] xl:w-[70%] text-gray-600">
-                  Lorem ipsum dolor sit amet, consectetuipisicing elit, sed do
-                  eiusmod tempor incididunt ut labore et dolore magna aliqut
-                  enim ad minim
+                  Explore hundreds of recipes, discover new dishes, and cook
+                  like a pro with step-by-step instructions and easy-to-follow
+                  ingredients.
                 </p>
               </div>
               <div className="flex flex-wrap gap-3 items-center justify-start">
@@ -113,7 +113,7 @@ const Home = () => {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 w-full max-w-7xl p-4">
           {categories.map((category) => (
             <Link
-            to={`/recipes/category/${category.id}`}
+              to={`/recipes/category/${category.id}`}
               key={category}
               className="flex flex-col justify-center items-center gap-3 py-4 md:py-6 h-48 md:h-60 rounded-xl md:rounded-2xl bg-green-50 hover:bg-green-100 transition-colors cursor-pointer"
             >
