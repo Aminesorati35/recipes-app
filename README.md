@@ -8,7 +8,7 @@ A full-stack Recipe App with **Laravel backend** and **React frontend**.
 ## Technologies Used
 
 - **Frontend:** React, Tailwind CSS  
-- **Backend:** Laravel 10, PHP 8.2  
+- **Backend:** Laravel 12, PHP 8.2  
 - **Database:** MySQL  
 
 ---
@@ -30,8 +30,7 @@ A full-stack Recipe App with **Laravel backend** and **React frontend**.
 ### 1. Clone the repository
 
 
-    git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
-    cd YOUR_REPO
+    git clone https://github.com/Aminesorati35/recipes-app.git
 
 ## Backend Laravel
 
@@ -125,7 +124,7 @@ This project is a **full-stack Recipe App** built with **Laravel** for the backe
    - Click on any recipe to view full details.
 2. **Admin Interaction**:
    - Scroll to the footer and click the **Admin Dashboard link**.
-   - Login with admin credentials to access the dashboard.
+   - Login Or Sign Up with admin credentials to access the dashboard.
    - From the dashboard, admins can add, edit, or delete recipes and categories.
 3. **Data Flow**:
    - React frontend communicates with the Laravel backend API.
